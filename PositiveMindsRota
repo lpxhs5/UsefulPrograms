@@ -1,0 +1,195 @@
+import csv
+
+# Written by Hannah Slack 07-04-2020, made for 2020-2021 academic year. 
+
+# Hello! This script will create a rota (csv file) for your Positive Minds sessions!
+# It will also allow you to update which facilitators are assigned to a certain day 
+# and updates the excel file accordingly.
+
+# 07/04/2020 - Currently works for 6 facilitators.
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# Settings names - edit each year or as needed. 
+
+filename = '2020_2021_PMrota.csv'
+
+Headers = ['Date', 'Facilitator 1', 'Facilitator 2', 'Reserve']
+
+Facilitators = ['Hannah', 'Camilla', 'Lizzy', 'Charlotte', 'Catherine', 'Labiba']
+
+Dates = ['01/10', '08/10', '15/10', '22/10', '29/10', '05/10', '12/11', '19/11', '26/11', '3/12', '28/01', '04/02', '11/02', '18/02', '25/02', '04/03', '11/03', '18/03', '25/03']
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# CREATING DICTIONARY for any enquiries about who's running PM on any day. 
+
+try: 
+
+    with open(filename, mode='r') as csvfile:
+        favourites = csv.reader(csvfile)
+        with open(filename, mode='a') as outfile:
+            writer = csv.writer(outfile)
+            WorkDates = {row[0]:[row[1], row[2]] for row in favourites}
+                
+        with open(filename, mode='r') as csvfile:
+            favourites = csv.reader(csvfile)
+            with open(filename, mode='a') as outfile:
+                writer = csv.writer(outfile)
+                Reserves = {row[0]:row[3] for row in favourites}
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# GENERATING THE ROTA FILE - only used if no file exists already. Then creates dictionary.
+
+except:
+    
+
+    with open('2020_2021_PMrota.csv', mode='w') as csvfile:
+        favourites = csv.writer(csvfile, delimiter=',')
+        favourites.writerow([Headers[0], Headers[1], Headers[2], Headers[3]])
+
+        # Method 1 for generating rota file.
+        for i in range(len(Facilitators)-2):
+            favourites.writerow([Dates[i], Facilitators[i], Facilitators[i+1], Facilitators[i+2]])
+        favourites.writerow([Dates[4], Facilitators[4], Facilitators[5], Facilitators[0]])
+        favourites.writerow([Dates[5], Facilitators[5], Facilitators[0], Facilitators[1]])  
+        for i in range(len(Facilitators)-3):
+            favourites.writerow([Dates[i+6], Facilitators[i], Facilitators[i+1], Facilitators[i+2]])
+        favourites.writerow([Dates[10], Facilitators[4], Facilitators[5], Facilitators[0]])
+        favourites.writerow([Dates[11], Facilitators[5], Facilitators[0], Facilitators[1]])
+        for i in range(len(Facilitators)-3):
+            favourites.writerow([Dates[i+12], Facilitators[i], Facilitators[i+1], Facilitators[i+2]])
+        favourites.writerow([Dates[16], Facilitators[4], Facilitators[5], Facilitators[0]])
+        favourites.writerow([Dates[17], Facilitators[5], Facilitators[0], Facilitators[1]])
+        favourites.writerow([Dates[18], Facilitators[0], Facilitators[1], Facilitators[2]])
+        
+        # method 2 for generating rota file.
+    #    favourites.writerow([Dates[0], Facilitators[0], Facilitators[1], Facilitators[2]])
+    #    favourites.writerow([Dates[1], Facilitators[1], Facilitators[2], Facilitators[3]])
+    #    favourites.writerow([Dates[2], Facilitators[2], Facilitators[3], Facilitators[4]])
+    #    favourites.writerow([Dates[3], Facilitators[3], Facilitators[4], Facilitators[5]])
+    #    favourites.writerow([Dates[4], Facilitators[4], Facilitators[5], Facilitators[0]])
+    #    favourites.writerow([Dates[5], Facilitators[5], Facilitators[0], Facilitators[1]])
+    #    favourites.writerow([Dates[6], Facilitators[0], Facilitators[1], Facilitators[2]])
+    #    favourites.writerow([Dates[7], Facilitators[1], Facilitators[2], Facilitators[3]])
+    #    favourites.writerow([Dates[8], Facilitators[2], Facilitators[3], Facilitators[4]])
+    #    favourites.writerow([Dates[9], Facilitators[3], Facilitators[4], Facilitators[5]])
+    #    favourites.writerow([Dates[10], Facilitators[4], Facilitators[5], Facilitators[0]])
+    #    favourites.writerow([Dates[11], Facilitators[5], Facilitators[0], Facilitators[1]])
+    #    favourites.writerow([Dates[12], Facilitators[0], Facilitators[1], Facilitators[2]])
+    #    favourites.writerow([Dates[13], Facilitators[1], Facilitators[2], Facilitators[3]])
+    #    favourites.writerow([Dates[14], Facilitators[2], Facilitators[3], Facilitators[4]])
+    #    favourites.writerow([Dates[15], Facilitators[3], Facilitators[4], Facilitators[5]])
+    #    favourites.writerow([Dates[16], Facilitators[4], Facilitators[5], Facilitators[0]])
+    #    favourites.writerow([Dates[17], Facilitators[5], Facilitators[0], Facilitators[1]])
+    #    favourites.writerow([Dates[18], Facilitators[0], Facilitators[1], Facilitators[2]])
+        
+    
+    # Creating dictionary
+    with open(filename, mode='r') as csvfile:
+        favourites = csv.reader(csvfile)
+        with open(filename, mode='a') as csvfile:
+            writer = csv.writer(csvfile)
+            WorkDates = {row[0]:[row[1], row[2]] for row in favourites}
+                
+    with open(filename, mode='r') as csvfile:
+        favourites = csv.reader(csvfile)
+        with open(filename, mode='a') as outfile:
+            writer = csv.writer(outfile)
+            Reserves = {row[0]:row[3] for row in favourites}
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------    
+# PROGRAM START
+
+date = input('Which date would you like to learn about? ')
+
+print('\nThe following facilitators are running PM on ' + str(date) + ': ' + str(WorkDates[date]) +'.\nThe reserve on this date is: ' + str(Reserves[date]) + '\n')
+answer = input('Does this information need to be updated? y or n \n')
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# UPDATING THE ROTA
+
+if answer == 'y':
+    newfacilitator1 = input('What\'s the name of the first facilitator who will be running PM on this date? \n')
+    newfacilitator2 = input('What\'s the name of the second facilitator who will be running PM on this date? \n')
+    newreserve = input('Who is now on reserve for this date? \n')
+
+# Checking valid names entered.
+    if newfacilitator1 == '':
+        print('Facilitator 1 name is blank!')
+    if newfacilitator2 == '':
+        print('Facilitator 2 name is blank!')   
+    if newreserve == '':
+        print('Reserve name is blank!')
+    if newfacilitator1 not in Facilitators:
+        print('Error: I don\'t know Facilitator 1!')
+    if newfacilitator2 not in Facilitators:
+        print('Error: I don\'t know Facilitator 2!')
+    if newreserve not in Facilitators:
+        print('Error: I don\'t know the Reserve!')
+    if newfacilitator1 == newfacilitator2:
+        print('You can\'t have the same person written down for both facilitators')
+        
+    else:
+
+# Updating the excel file.
+    # Finding the right row in excel sheet according to the date given.
+        if date == Dates[0]:
+            x = 1
+        elif date == Dates[1]:
+            x = 2
+        elif date == Dates[2]:
+            x = 3
+        elif date == Dates[3]:
+            x = 4
+        elif date == Dates[4]:
+            x = 5
+        elif date == Dates[5]:
+            x = 6
+        elif date == Dates[6]:
+            x = 7
+        elif date == Dates[7]:
+            x = 8
+        elif date == Dates[8]:
+            x = 9
+        elif date == Dates[9]:
+            x = 10
+        elif date == Dates[10]:
+            x = 11
+        elif date == Dates[11]:
+            x = 12
+        elif date == Dates[12]:
+            x = 13
+        elif date == Dates[13]:
+            x = 14
+        elif date == Dates[14]:
+            x = 15
+        elif date == Dates[15]:
+            x = 16
+        elif date == Dates[16]:
+            x = 17
+        elif date == Dates[17]:
+            x = 18
+        elif date == Dates[18]:
+            x = 19
+
+        # Updating each column for the target row with the new values.    
+        with open(filename, 'r') as csvfile:
+            r = csv.reader(csvfile) 
+            lines = list(r)
+            lines[x][1] = newfacilitator1
+            lines[x][2] = newfacilitator2
+            lines[x][3] = newreserve
+        
+        # Writing the new info to the excel file.    
+        with open(filename, 'w') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(lines)
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# PRINTING THE UPDATED ROTA TO THE COMMAND LINE
+
+# to read the csv file here.
+print('Current rota: \n')
+with open(filename) as csvfile: # opens csv file as csvfile
+    favourites = csv.reader(csvfile, delimiter=',') # reads file using csv.reader() method and stores the data in favourites.
+    for row in favourites: # iterating over each row in favourites.
+        print(row)
