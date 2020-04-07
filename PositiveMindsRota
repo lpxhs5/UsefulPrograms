@@ -13,11 +13,11 @@ import csv
 
 filename = '2020_2021_PMrota.csv'
 
-Headers = ['Date', 'Facilitator 1', 'Facilitator 2', 'Reserve']
+Headers = ['Date', 'Facilitator 1', 'Facilitator 2', 'Reserve', 'Session']
 
 Facilitators = ['Hannah', 'Camilla', 'Lizzy', 'Charlotte', 'Catherine', 'Labiba']
 
-Dates = ['01/10', '08/10', '15/10', '22/10', '29/10', '05/10', '12/11', '19/11', '26/11', '3/12', '28/01', '04/02', '11/02', '18/02', '25/02', '04/03', '11/03', '18/03', '25/03']
+Dates = ['01/10', '08/10', '15/10', '22/10', '29/10', '05/11', '12/11', '19/11', '26/11', '3/12', '28/01', '04/02', '11/02', '18/02', '25/02', '04/03', '11/03', '18/03', '25/03']
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # CREATING DICTIONARY for any enquiries about who's running PM on any day. 
@@ -35,6 +35,13 @@ try:
             with open(filename, mode='a') as outfile:
                 writer = csv.writer(outfile)
                 Reserves = {row[0]:row[3] for row in favourites}
+        
+        with open(filename, mode='r') as csvfile:
+            favourites = csv.reader(csvfile)
+            with open(filename, mode='a') as outfile:
+                writer = csv.writer(outfile)
+                Sessions = {row[0]:row[4] for row in favourites}
+    
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # GENERATING THE ROTA FILE - only used if no file exists already. Then creates dictionary.
@@ -44,43 +51,43 @@ except:
 
     with open('2020_2021_PMrota.csv', mode='w') as csvfile:
         favourites = csv.writer(csvfile, delimiter=',')
-        favourites.writerow([Headers[0], Headers[1], Headers[2], Headers[3]])
+        favourites.writerow([Headers[0], Headers[1], Headers[2], Headers[3], Headers[4]])
 
         # Method 1 for generating rota file.
         for i in range(len(Facilitators)-2):
-            favourites.writerow([Dates[i], Facilitators[i], Facilitators[i+1], Facilitators[i+2]])
-        favourites.writerow([Dates[4], Facilitators[4], Facilitators[5], Facilitators[0]])
-        favourites.writerow([Dates[5], Facilitators[5], Facilitators[0], Facilitators[1]])  
-        for i in range(len(Facilitators)-3):
-            favourites.writerow([Dates[i+6], Facilitators[i], Facilitators[i+1], Facilitators[i+2]])
-        favourites.writerow([Dates[10], Facilitators[4], Facilitators[5], Facilitators[0]])
-        favourites.writerow([Dates[11], Facilitators[5], Facilitators[0], Facilitators[1]])
-        for i in range(len(Facilitators)-3):
-            favourites.writerow([Dates[i+12], Facilitators[i], Facilitators[i+1], Facilitators[i+2]])
-        favourites.writerow([Dates[16], Facilitators[4], Facilitators[5], Facilitators[0]])
-        favourites.writerow([Dates[17], Facilitators[5], Facilitators[0], Facilitators[1]])
-        favourites.writerow([Dates[18], Facilitators[0], Facilitators[1], Facilitators[2]])
+            favourites.writerow([Dates[i], Facilitators[i], Facilitators[i+1], Facilitators[i+2], i+1])
+        favourites.writerow([Dates[4], Facilitators[4], Facilitators[5], Facilitators[0], 5])
+        favourites.writerow([Dates[5], Facilitators[5], Facilitators[0], Facilitators[1], 6])  
+        for i in range(len(Facilitators)-2):
+            favourites.writerow([Dates[i+6], Facilitators[i], Facilitators[i+1], Facilitators[i+2], i+1])
+        favourites.writerow([Dates[10], Facilitators[4], Facilitators[5], Facilitators[0], 5])
+        favourites.writerow([Dates[11], Facilitators[5], Facilitators[0], Facilitators[1], 6])
+        for i in range(len(Facilitators)-2):
+            favourites.writerow([Dates[i+12], Facilitators[i], Facilitators[i+1], Facilitators[i+2], i+1])
+        favourites.writerow([Dates[16], Facilitators[4], Facilitators[5], Facilitators[0], 5])
+        favourites.writerow([Dates[17], Facilitators[5], Facilitators[0], Facilitators[1], 6])
+        favourites.writerow([Dates[18], Facilitators[0], Facilitators[1], Facilitators[2], 1])
         
         # method 2 for generating rota file.
-    #    favourites.writerow([Dates[0], Facilitators[0], Facilitators[1], Facilitators[2]])
-    #    favourites.writerow([Dates[1], Facilitators[1], Facilitators[2], Facilitators[3]])
-    #    favourites.writerow([Dates[2], Facilitators[2], Facilitators[3], Facilitators[4]])
-    #    favourites.writerow([Dates[3], Facilitators[3], Facilitators[4], Facilitators[5]])
-    #    favourites.writerow([Dates[4], Facilitators[4], Facilitators[5], Facilitators[0]])
-    #    favourites.writerow([Dates[5], Facilitators[5], Facilitators[0], Facilitators[1]])
-    #    favourites.writerow([Dates[6], Facilitators[0], Facilitators[1], Facilitators[2]])
-    #    favourites.writerow([Dates[7], Facilitators[1], Facilitators[2], Facilitators[3]])
-    #    favourites.writerow([Dates[8], Facilitators[2], Facilitators[3], Facilitators[4]])
-    #    favourites.writerow([Dates[9], Facilitators[3], Facilitators[4], Facilitators[5]])
-    #    favourites.writerow([Dates[10], Facilitators[4], Facilitators[5], Facilitators[0]])
-    #    favourites.writerow([Dates[11], Facilitators[5], Facilitators[0], Facilitators[1]])
-    #    favourites.writerow([Dates[12], Facilitators[0], Facilitators[1], Facilitators[2]])
-    #    favourites.writerow([Dates[13], Facilitators[1], Facilitators[2], Facilitators[3]])
-    #    favourites.writerow([Dates[14], Facilitators[2], Facilitators[3], Facilitators[4]])
-    #    favourites.writerow([Dates[15], Facilitators[3], Facilitators[4], Facilitators[5]])
-    #    favourites.writerow([Dates[16], Facilitators[4], Facilitators[5], Facilitators[0]])
-    #    favourites.writerow([Dates[17], Facilitators[5], Facilitators[0], Facilitators[1]])
-    #    favourites.writerow([Dates[18], Facilitators[0], Facilitators[1], Facilitators[2]])
+    #    favourites.writerow([Dates[0], Facilitators[0], Facilitators[1], Facilitators[2], 1])
+    #    favourites.writerow([Dates[1], Facilitators[1], Facilitators[2], Facilitators[3], 2])
+    #    favourites.writerow([Dates[2], Facilitators[2], Facilitators[3], Facilitators[4], 3])
+    #    favourites.writerow([Dates[3], Facilitators[3], Facilitators[4], Facilitators[5], 4])
+    #    favourites.writerow([Dates[4], Facilitators[4], Facilitators[5], Facilitators[0], 5])
+    #    favourites.writerow([Dates[5], Facilitators[5], Facilitators[0], Facilitators[1], 6])
+    #    favourites.writerow([Dates[6], Facilitators[0], Facilitators[1], Facilitators[2], 1])
+    #    favourites.writerow([Dates[7], Facilitators[1], Facilitators[2], Facilitators[3], 2])
+    #    favourites.writerow([Dates[8], Facilitators[2], Facilitators[3], Facilitators[4], 3])
+    #    favourites.writerow([Dates[9], Facilitators[3], Facilitators[4], Facilitators[5], 4])
+    #    favourites.writerow([Dates[10], Facilitators[4], Facilitators[5], Facilitators[0], 5])
+    #    favourites.writerow([Dates[11], Facilitators[5], Facilitators[0], Facilitators[1], 6])
+    #    favourites.writerow([Dates[12], Facilitators[0], Facilitators[1], Facilitators[2], 1])
+    #    favourites.writerow([Dates[13], Facilitators[1], Facilitators[2], Facilitators[3], 2])
+    #    favourites.writerow([Dates[14], Facilitators[2], Facilitators[3], Facilitators[4], 3])
+    #    favourites.writerow([Dates[15], Facilitators[3], Facilitators[4], Facilitators[5], 4])
+    #    favourites.writerow([Dates[16], Facilitators[4], Facilitators[5], Facilitators[0], 5])
+    #    favourites.writerow([Dates[17], Facilitators[5], Facilitators[0], Facilitators[1], 6])
+    #    favourites.writerow([Dates[18], Facilitators[0], Facilitators[1], Facilitators[2], 1])
         
     
     # Creating dictionary
@@ -95,13 +102,21 @@ except:
         with open(filename, mode='a') as outfile:
             writer = csv.writer(outfile)
             Reserves = {row[0]:row[3] for row in favourites}
-
+            
+    with open(filename, mode='r') as csvfile:
+        favourites = csv.reader(csvfile)
+        with open(filename, mode='a') as outfile:
+            writer = csv.writer(outfile)
+            Sessions = {row[0]:row[4] for row in favourites}
 # --------------------------------------------------------------------------------------------------------------------------------------------------    
 # PROGRAM START
 
 date = input('Which date would you like to learn about? ')
+if date not in Dates:
+    print('There\'s no Positive Minds session on that day.')
+    quit()
 
-print('\nThe following facilitators are running PM on ' + str(date) + ': ' + str(WorkDates[date]) +'.\nThe reserve on this date is: ' + str(Reserves[date]) + '\n')
+print('\nThe following facilitators are running PM on ' + str(date) + ': ' + str(WorkDates[date]) +'.\nThe reserve on this date is: ' + str(Reserves[date]) + '\nThe session today is session ' + str(Sessions[date]) + '\n')
 answer = input('Does this information need to be updated? y or n \n')
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -111,6 +126,7 @@ if answer == 'y':
     newfacilitator1 = input('What\'s the name of the first facilitator who will be running PM on this date? \n')
     newfacilitator2 = input('What\'s the name of the second facilitator who will be running PM on this date? \n')
     newreserve = input('Who is now on reserve for this date? \n')
+    newsession = input('Which session will be run on this date? \n')
 
 # Checking valid names entered.
     if newfacilitator1 == '':
@@ -127,6 +143,8 @@ if answer == 'y':
         print('Error: I don\'t know the Reserve!')
     if newfacilitator1 == newfacilitator2:
         print('You can\'t have the same person written down for both facilitators')
+    if int(newsession) >6:
+        print('There are a maximum of 6 possible sessions')
         
     else:
 
@@ -178,6 +196,7 @@ if answer == 'y':
             lines[x][1] = newfacilitator1
             lines[x][2] = newfacilitator2
             lines[x][3] = newreserve
+            lines[x][4] = newsession
         
         # Writing the new info to the excel file.    
         with open(filename, 'w') as csvfile:
