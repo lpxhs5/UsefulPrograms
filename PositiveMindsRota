@@ -20,27 +20,28 @@ Facilitators = ['Hannah', 'Camilla', 'Lizzy', 'Charlotte', 'Catherine', 'Labiba'
 Dates = ['01/10', '08/10', '15/10', '22/10', '29/10', '05/11', '12/11', '19/11', '26/11', '3/12', '28/01', '04/02', '11/02', '18/02', '25/02', '04/03', '11/03', '18/03', '25/03']
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
-# CREATING DICTIONARY for any enquiries about who's running PM on any day. 
+# CREATING 3 DICTIONARIES for any enquiries about who's running PM on any day. 
 
+# try to read the target csv file and create 3 dictionaries from it.
 try: 
 
     with open(filename, mode='r') as csvfile:
         favourites = csv.reader(csvfile)
         with open(filename, mode='a') as outfile:
             writer = csv.writer(outfile)
-            WorkDates = {row[0]:[row[1], row[2]] for row in favourites}
+            WorkDates = {row[0]:[row[1], row[2]] for row in favourites} # each dictionary item has Date as key and Facilitator 1 and 2 as values.
                 
         with open(filename, mode='r') as csvfile:
             favourites = csv.reader(csvfile)
             with open(filename, mode='a') as outfile:
                 writer = csv.writer(outfile)
-                Reserves = {row[0]:row[3] for row in favourites}
+                Reserves = {row[0]:row[3] for row in favourites} # each dictionary item has Date as key and Reserve as the value.
         
         with open(filename, mode='r') as csvfile:
             favourites = csv.reader(csvfile)
             with open(filename, mode='a') as outfile:
                 writer = csv.writer(outfile)
-                Sessions = {row[0]:row[4] for row in favourites}
+                Sessions = {row[0]:row[4] for row in favourites} # each dictionary item has Date as key and Session as the value.
     
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -48,6 +49,10 @@ try:
 
 except:
     
+# if no csv file was found, one is created. It indexes into each of the lists at the start of the script to
+# write the values into the appropriate cells of the sheet. Looping has been used to help efficiency. 
+# Some lines could appear outside of the for loops. This is because there were more dates than facilitators 
+# and 'Facilitator[0]' needed to be used again, which wasn't possible inside the for loop. 
 
     with open('2020_2021_PMrota.csv', mode='w') as csvfile:
         favourites = csv.writer(csvfile, delimiter=',')
@@ -90,24 +95,24 @@ except:
     #    favourites.writerow([Dates[18], Facilitators[0], Facilitators[1], Facilitators[2], 1])
         
     
-    # Creating dictionary
+    # Creating dictionaries
     with open(filename, mode='r') as csvfile:
         favourites = csv.reader(csvfile)
         with open(filename, mode='a') as csvfile:
             writer = csv.writer(csvfile)
-            WorkDates = {row[0]:[row[1], row[2]] for row in favourites}
+            WorkDates = {row[0]:[row[1], row[2]] for row in favourites} # each dictionary item has Date as key and Facilitator 1 and 2 as values.
                 
     with open(filename, mode='r') as csvfile:
         favourites = csv.reader(csvfile)
         with open(filename, mode='a') as outfile:
             writer = csv.writer(outfile)
-            Reserves = {row[0]:row[3] for row in favourites}
+            Reserves = {row[0]:row[3] for row in favourites} # each dictionary item has Date as key and Reserve as the value.
             
     with open(filename, mode='r') as csvfile:
         favourites = csv.reader(csvfile)
         with open(filename, mode='a') as outfile:
             writer = csv.writer(outfile)
-            Sessions = {row[0]:row[4] for row in favourites}
+            Sessions = {row[0]:row[4] for row in favourites} # each dictionary item has Date as key and Session as the value.
 # --------------------------------------------------------------------------------------------------------------------------------------------------    
 # PROGRAM START
 
@@ -128,7 +133,7 @@ if answer == 'y':
     newreserve = input('Who is now on reserve for this date? \n')
     newsession = input('Which session will be run on this date? \n')
 
-# Checking valid names entered.
+# Checking valid names/numbers entered.
     if newfacilitator1 == '':
         print('Facilitator 1 name is blank!')
     if newfacilitator2 == '':
@@ -145,10 +150,12 @@ if answer == 'y':
         print('You can\'t have the same person written down for both facilitators')
     if int(newsession) >6:
         print('There are a maximum of 6 possible sessions')
+    if int(newsession) <1:
+        print('Invalid session number')
         
     else:
 
-# Updating the excel file.
+# Updating the excel file. 
     # Finding the right row in excel sheet according to the date given.
         if date == Dates[0]:
             x = 1
@@ -189,10 +196,10 @@ if answer == 'y':
         elif date == Dates[18]:
             x = 19
 
-        # Updating each column for the target row with the new values.    
+        # Updating each column for the target row with the new values. First value (x) is the row, second value is the column. Column 1 is 2nd column.   
         with open(filename, 'r') as csvfile:
             r = csv.reader(csvfile) 
-            lines = list(r)
+            lines = list(r) # temporary 'lines' object holds the data from the csvfile in a list.
             lines[x][1] = newfacilitator1
             lines[x][2] = newfacilitator2
             lines[x][3] = newreserve
@@ -206,7 +213,7 @@ if answer == 'y':
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # PRINTING THE UPDATED ROTA TO THE COMMAND LINE
 
-# to read the csv file here.
+# to read the csv file out here to check it has been updated correctly.
 print('Current rota: \n')
 with open(filename) as csvfile: # opens csv file as csvfile
     favourites = csv.reader(csvfile, delimiter=',') # reads file using csv.reader() method and stores the data in favourites.
